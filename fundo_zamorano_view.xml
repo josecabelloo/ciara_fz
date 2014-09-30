@@ -78,6 +78,12 @@
         <field name="res_model">fundo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_fundo_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra todos los datos del Fundo Zamorano
+            </p>
+        </field>
     </record>
     
     
@@ -112,6 +118,12 @@
         <field name="res_model">ppas</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ppas_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra el Polo Patriotico Agrario del Fundo Zamorano
+            </p>
+        </field>
     </record>
     
 
@@ -143,6 +155,7 @@
         <field name="res_model">redi</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        
     </record>
     
 
@@ -332,6 +345,12 @@
         <field name="res_model">superficie_fundo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,graph</field>
+        <field name="view_id" ref="view_superficie_fundo_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra la Superficie del Fundo Zamorano
+            </p>
+        </field>
     </record>
     
 
@@ -363,6 +382,12 @@
         <field name="res_model">tipo_superficie</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_superficie_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra la Superficie del Fundo Zamorano
+            </p>
+        </field>
     </record>
     
 
@@ -394,6 +419,12 @@
         <field name="res_model">tipo_fundo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_fundo_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra el Tipo de fundo Zamorano
+            </p>
+        </field>
     </record>
     
 
@@ -425,6 +456,7 @@
         <field name="res_model">naturalidad_fundo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        
     </record>
     
 	<record model="ir.ui.view" id="view_naturalidad_fundo_tipo_form">
@@ -454,6 +486,12 @@
         <field name="res_model">naturalidad_fundo_tipo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_naturalidad_fundo_tipo_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra el Tipo de Población del Fundo Zamorano
+            </p>
+        </field>
     </record>
         
     <!--<record model="ir.ui.view" id="view_tipo_naturalidad_fundo_form">

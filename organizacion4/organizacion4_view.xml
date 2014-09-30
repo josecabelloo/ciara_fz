@@ -66,6 +66,12 @@
         <field name="res_model">organizacion</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_organizacion_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra la Organización con todos sus datos 
+            </p>
+        </field>
     </record>
     
 
@@ -198,6 +204,12 @@
         <field name="res_model">estatus</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_estatus_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra  el estatus en que se encuentra la Organización
+            </p>
+        </field>
     </record>
     
 
@@ -238,6 +250,12 @@
         <field name="res_model">organizacion_superior</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_organizacion_superior_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra la Organización Superior con su contenido de Datos
+            </p>
+        </field>
     </record>
     
 
@@ -275,6 +293,12 @@
         <field name="res_model">persona</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_persona_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra los Datos de las Personas de la Organización
+            </p>
+        </field>
     </record>
     
 
@@ -318,6 +342,12 @@
         <field name="res_model">documentos</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_documentos_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra los datos que contiene el Documentos de la Organización
+            </p>
+        </field>
     </record>
     
 
@@ -349,6 +379,12 @@
         <field name="res_model">tipo_documento</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_documento_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra el Tipo de Documento de la Organización
+            </p>
+        </field>
     </record>
     
 
@@ -382,6 +418,12 @@
         <field name="res_model">documentos_legales</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_documentos_legales_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se registra los Documentos Legales de la Organización
+            </p>
+        </field>
     </record>
     
     <!-- Botón para la barra de Aplicaciones (Horizontal Superior) -->

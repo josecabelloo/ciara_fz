@@ -59,12 +59,6 @@
         <field name="res_model">miembro_referencial</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_miembro_referencial_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registran los Integrantes a quienes hacen referencia las Familias Asociadas 
-            </p>
-        </field>
     </record>
 
     
@@ -78,7 +72,8 @@
                 <field name="apellidos"/>
                 <field name="cedula"/>
                 <field name="fecha_nac" on_change="calculo_edad(fecha_nac)"/>
-                <field name="edad" string="Edad" />
+		<label for="edad" string="Edad" />
+   		<field name="edad"/>
                 <field name="genero_id" widget="selection"/>
                 <field name="estado_civil_id" widget="selection"/>
                 <field name="nivel_educativo_id" widget="selection"/>
@@ -89,9 +84,9 @@
                 <field name="fecha_vence"/>
                 
                 <notebook colspan="8">
-                    
-                <page string="Fundo Zamorano">
-                <separator string="Fundo Zamorano" colspan="4"/>
+					
+			    <page string="Fundo">
+                <separator string="Fundo" colspan="4"/>
                 <field name="fundo_organizacion_grupo_ids" colspan="4" nolabel="1" select="0"/>
                 </page>
                 
@@ -99,14 +94,14 @@
                 <separator string="Telefono" colspan="4"/>
                 <field name="telefono_grupo_ids" colspan="4" nolabel="1" select="0"/>
                 </page>
-                
-                <page string="Movimiento al que Pertenece">	
-                <separator string="Movimiento al que Pertenece" colspan="4"/>
+					
+				<page string="Movimiento">	
+                <separator string="Movimiento" colspan="4"/>
                 <field name="movimiento_ids" colspan="4" nolabel="1" select="0"/>
                 </page>
                 
-                <page string="Mision a la que Pertenece">
-                <separator string="Mision a la que Pertenece" colspan="4"/>
+                <page string="Mision">
+                <separator string="Mision" colspan="4"/>
                 <field name="misiones_ids" colspan="4" nolabel="1" select="0"/>
                 </page>
                   
@@ -126,11 +121,11 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="">
-                <field name="miembro_referencial_id"/>
+				<field name="miembro_referencial_id"/>
                 <field name="nombre"/>
                 <field name="apellidos"/>
                 <field name="cedula"/>
-                <field name="edad" string="Edad"/>
+                <field name="edad"/>
                 <field name="genero_id"/>
             </tree>
         </field>
@@ -202,12 +197,6 @@
         <field name="res_model">genero</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_genero_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra el Tipo de Sexo del Integrante 
-            </p>
-        </field>
     </record>
     
         
@@ -238,12 +227,6 @@
         <field name="res_model">estado_civil</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_estado_civil_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra el Estado Civil del Integrante 
-            </p>
-        </field>
     </record>
   
 
@@ -275,12 +258,6 @@
         <field name="res_model">nivel_educativo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_nivel_educativo_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra el Nivel Educativo 
-            </p>
-        </field>
     </record>
     
 
@@ -312,12 +289,6 @@
         <field name="res_model">partido_politico</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_partido_politico_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra los Partidos Politicos de las Familias Asociadas
-            </p>
-        </field>
     </record>
     
 
@@ -349,12 +320,6 @@
         <field name="res_model">intrumento_agrario</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_intrumento_agrario_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra los Instrumentos Agrarios  de las Familias  Asociados
-            </p>
-        </field>
     </record>
 
 
@@ -385,12 +350,6 @@
         <field name="res_model">tipo_telefono</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_tipo_telefono_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra los tipos de Telefonos de las Familias Asociadas
-            </p>
-        </field>
     </record>
     
 
@@ -452,12 +411,6 @@
         <field name="res_model">mision</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_mision_tree"/>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-            Acá se registra las diferentes Misiones a las que pertene las Familias Asociadas
-            </p>
-        </field>
     </record>
     
 

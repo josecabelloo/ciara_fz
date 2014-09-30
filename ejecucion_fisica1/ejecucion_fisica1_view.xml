@@ -30,6 +30,13 @@
         <field name="res_model">acciones_especificas</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_acciones_especificas_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra las Acciones Especificas que forman parte de la Ejecución Física
+            </p>
+        </field>
+            
     </record>
     
 
@@ -63,6 +70,13 @@
         <field name="res_model">tecnicas_dinamicas</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tecnicas_dinamicas_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registran las Técnicas Dinamicas que se utilizan en la Ejecución Física
+            </p>
+        </field>
+        
     </record>
    
 
@@ -96,6 +110,12 @@
         <field name="res_model">materiales_apoyo</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_materiales_apoyo_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra los Materiales de Apoyo de la Ejecución Física
+            </p>
+        </field>
     </record>
     
 
@@ -127,6 +147,12 @@
         <field name="res_model">tipo_componentes_proyecto</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_componentes_proyecto_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra los Tipos de Componentes de la Ejecución Fisica
+            </p>
+        </field>
     </record>
     
     <record model="ir.ui.view" id="view_componentes_proyecto_form">
@@ -160,6 +186,12 @@
         <field name="res_model">componentes_proyecto</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_componentes_proyecto_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra los Componentes de la Ejecución Física
+            </p>
+        </field>
     </record>
 
         
@@ -190,6 +222,14 @@
         <field name="res_model">tipo_ejes_transversales</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_ejes_transversales_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra los Tipos de Ejes Transversales que existen
+            </p>
+        </field>
+        
     </record>
     
     <record model="ir.ui.view" id="view_ejes_transversales_form">
@@ -223,6 +263,7 @@
         <field name="res_model">ejes_transversales</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        
     </record>
     
         
@@ -257,6 +298,13 @@
         <field name="res_model">tecnicos</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tecnicos_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra los Técnicos encargados de la Ejecución Fisica
+            </p>
+        </field>
+        
     </record>
     
 
@@ -302,6 +350,12 @@
         <field name="res_model">personas_atendidas</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,graph</field>
+        <field name="view_id" ref="view_personas_atendidas_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra la Cantidad de Personas y el Grupo Etario al que pertenece
+            </p>
+        </field>
     </record>
     
 
@@ -333,9 +387,26 @@
         <field name="res_model">tipo_persona</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_persona_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra el Grupo Etario a cual pernecece la persona 
+            </p>
+        </field>
+        
     </record>
     
+<record model="ir.ui.view" id="view_familias_atend_form">
+        <field name="name">familias_atend.form</field>
+        <field name="model">familias_atend</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <field name="miembro_referencial_id" select="1"/>
 
+            </form>
+        </field>
+    </record>
         
     <record model="ir.ui.view" id="view_ejecucion_fisica_form">
         <field name="name">ejecucion_fisica.form</field>
@@ -343,29 +414,24 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="ejecucion_fisica">
-                <field name="fundo_id" select="1"/>
+                <field name="fundo_id" select="1" />
                 <field name="organizacion_id" select="2" domain="[('fundo_id','=',[fundo_id])]"/>
-                <field name="acciones_especificas_id" select="0" widget="selection"/>
+                <field name="acciones_especificas_id" select="0" widget="selection" />
                 <field name="fecha_planificacion" select="0"/>
                 <field name="fecha_ejecucion" select="0"/>
-                <field name="fecha_actual" select="0"/>
+                <newline/>
                 <field name="nombre_objetivo" select="0"/>
+                <newline/>
                 <field name="objetivo" select="0"/>
                 
                 <notebook colspan="5">
-					 <page string="Personas Atendidas">
-                <separator string="Personas Atendidas" colspan="4"/>
-                <field name="numero_familia" select="0"/>
-                <field name="numero_personas" select="0"/>
-                <separator string="Persona Referencial" colspan="2"/>
-                <newline/>
-                <field name="persona_referencial" select="0"/>
-                <field name="cedula_per_ref" select="0"/>
-                <field name="telefono_per_ref" select="0"/>
-                <field name="correo_per_ref" select="0"/>
-                <field name="personas_atendidas_ids" colspan="4" nolabel="1" select="0"/>
-					</page>
-                     
+                   
+                      <page string="Familias Atendidas">
+                <separator string="Familias Atendidas" colspan="4"/>
+                <field name="familias_atendidas_ids" colspan="4" nolabel="1" select="0" invisible="1"  />
+                <field name="personas_atendidas_ids" colspan="4" nolabel="1" select="0" domain="[('miembro_referencial_id','in',familias_atendidas_ids[0][2])]"/>
+                
+                </page>
                      <page string="Tecnicas dinamicas">
                 <separator string="Tecnicas dinamicas" colspan="4"/>
                 <field name="tecnicas_dinamicas_ids" colspan="4" nolabel="1" select="0"/>
@@ -386,12 +452,24 @@
                 <field name="ejes_transversales_ids" colspan="4" nolabel="1" select="0"/>
                 </page>
                
-					 <page string="Tecnicos">
+					  <page string="Tecnicos">
                 <separator string="Tecnicos" colspan="4"/>
-                <field name="tecnicos_ids" colspan="4" nolabel="1" select="0"/>
+                <field name="tecnicos_ayuda_domain_ids" colspan="4" nolabel="1" select="0" invisible="1" />
+                <field name="tecnicos_ids" colspan="4" nolabel="1" select="0" domain="[('id','in',tecnicos_ayuda_domain_ids[0][2])]"/>
                 </page>
                 
-					
+                <page string="Personas Atendidas Externas">
+                        <separator string="Personas Atendidas Externas" colspan="4"/>
+                <field name="numero_familia" select="0"/>
+                <field name="numero_personas" select="0"/>
+                <separator string="Persona Referencial" colspan="2"/>
+                <newline/>
+                <field name="persona_referencial" select="0"/>
+                <field name="cedula_per_ref" select="0"/>
+                <field name="telefono_per_ref" select="0"/>
+                <field name="correo_per_ref" select="0"/>
+                <field name="personas_atendida_ids" colspan="4" nolabel="1" select="0"/>
+                    </page>
                 </notebook>
                 
                   
@@ -424,7 +502,15 @@
         <field name="name">Ejecucion fisica</field>
         <field name="res_model">ejecucion_fisica</field>
         <field name="view_type">form</field>
-        <field name="view_mode">form,tree</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ejecucion_fisica_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Acá se Registra la Ejecución Fisica del Funzo Zamorano 
+            </p>
+        </field>
+        
+        
     </record>
     
     
