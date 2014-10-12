@@ -5,7 +5,6 @@ access_coor_dir_redi,redi,ciara_fz.model_redi,group_coor_dir,1,1,1,0
 access_coor_dir_inces_estados,inces_estados,ciara_fz.model_inces_estados,group_coor_dir,1,1,1,0
 access_coor_dir_inces_municipios,inces_municipios,ciara_fz.model_inces_municipios,group_coor_dir,1,1,1,0
 access_coor_dir_inces_parroquias,inces_parroquias,ciara_fz.model_inces_parroquias,group_coor_dir,1,1,1,0
-access_coor_dir_inces_sectores,inces_sectores,ciara_fz.model_inces_sectores,group_coor_dir,1,1,1,0
 access_coor_dir_superficie_fundo,superficie_fundo,ciara_fz.model_superficie_fundo,group_coor_dir,1,1,1,0
 access_coor_dir_tipo_superficie,tipo_superficie,ciara_fz.model_tipo_superficie,group_coor_dir,1,1,1,0
 access_coor_dir_tipo_fundo,tipo_fundo,ciara_fz.model_tipo_fundo,group_coor_dir,1,1,1,0

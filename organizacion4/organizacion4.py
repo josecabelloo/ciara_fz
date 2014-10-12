@@ -39,22 +39,22 @@ class organizacion(osv.osv):
         'control_superficie': fields.function(_superf_fundo_org, string='Personas Atendidas', type="char",size=100,  store=True),
         'nombre': fields.char('Nombre de la Organización', size=50, required=True, help='Se coloca el Nombre completo de la Organización entre ellos Comunas, Concejos Comunales, Cooperativas y Asociaciones Civiles. Ejem: Cooperativa Mixta Aracal .R.L'),
         'rif': fields.char('R.I.F.', size=15, required=True, help=' Numero de RIF de la organización. Ejem; G-20005393-3'),
-        'fecha_exp': fields.datetime('Fecha de Expedición', required=True, help='Fecha de expedición o otorgamiento del R.I.F. Ejem: 15/12/2010'),
+        'fecha_exp': fields.date('Fecha de Expedición', required=True, help='Fecha de expedición o otorgamiento del R.I.F. Ejem: 15/12/2010'),
         'observacion': fields.text('Observaciones', help='Observaciones que puede tener la Organización'),
         'fundo_id': fields.many2one('fundo', 'Fundo Zamorano', required=True, help=' Colocar el Nombre del Fundo Zamorano al que Pertenece esa Organización.'),
         'supeficie_ids': fields.one2many('superficie_organizacion', 'superficie_id', 'Superficie Adjudicada de la Organización', required=True, help='Relación de la Organizacion y la Superficie'),
         'objet_id': fields.many2one('objeto', 'Objeto de la Organización', help='Objeto de la Organización'),
-        'objeto': fields.text('Nombre de la Organización', size=500, required=True, help='colocar el objeto que tiene establecido esa organización en el acta constitutiva o documento de creación.'),
+        'objeto': fields.text('Objeto de la Organización', size=500, required=True, help='colocar el objeto que tiene establecido esa organización en el acta constitutiva o documento de creación.'),
         'productiva_id': fields.many2one('productiva', 'Productiva', required=False, help='Relacion de la Organización con la Productividad'),
         'a_n_id': fields.many2one('estatus', 'Estatus', required=False, help='Relación de la Organización y el Estatus'),
         'org_sup_id': fields.many2one('organizacion_superior', 'Organización Superior', help='Mencionar si la organización pertenece a otra de nivel superior (Cooperativas de 2°grado, Consejo Comunal y Comuna) '),
         'documento_ids': fields.one2many('documentos', 'documento_id', 'Documentos de la Organización', help='Relación de los Documentos de la Organización'),
-        'estatus_nombre': fields.selection([('activo', 'Activo'), ('no_activo', 'No Activo')], 'Estatus', help="Se refleja el estatus actual de la organización (Activa o Inactiva)", required=True, states={'activo': [('readonly', False)]}),
         'productiva_nombre': fields.selection([('productiva', 'Productiva'), ('no_productiva', 'No Productiva')], 'Productividad', help="Reflejar si la Organización se encuentra Productiva (SI o NO)", required=True, states={'productiva': [('readonly', False)]}),
+        'active': fields.boolean('Active'),
     }
     _defaults = {
-        'estatus_nombre': 'activo',
         'productiva_nombre': 'productiva',
+        'active':True, 
         
     }
     
@@ -124,6 +124,11 @@ class organizacion_superior(osv.osv):
         'persona_contacto': fields.char('Persona Contacto', size=200, required=True, help='Persona de contacto que posee la Organizacion Superior'),
         'telefono': fields.char('Numero de Telefono', size=50, required=True, help='Telefono de contacto de la Persona'),
         'correo': fields.char('Correo Electronico', size=50, required=False, help='Correo de contacto de la Persona'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 organizacion_superior()
@@ -139,6 +144,10 @@ class persona(osv.osv):
         'nombres': fields.char('Nombres', size=50, required=True, help='Nombre de la Persona'),
         'telefono': fields.char('Telefono', size=50, required=True, help='Telefono de la Persona'),
         'correo': fields.char('Correo', size=50, required=False, help='Correo de la Persona'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
         
     }
     
@@ -160,11 +169,18 @@ class documentos(osv.osv):
     _columns = {
         'documento_id': fields.many2one('organizacion', 'Documentos de la Organización', help='Documentos que posee la Organización'),
         'codigo': fields.char('Codigo del Documento', size=50, required=True, help='se refleja el código de los documentos mas relevantes de la organización (N° registro ante Sunacoop o N° registro ante el ministerio de las Comunas)'),
-        'fecha_exp': fields.datetime('Fecha de Expedición', required=True, help='Se debe reflejar la fecha de expedición o otorgamiento  del documento. Ejem: 15/12/2010'),
-        'fecha_ven': fields.datetime('Fecha de Vencimiento',  required=False, help='Se debe colocar la fecha de vencimiento del documento Ejem: 15/12/2016 (Si el documento posee dicha fecha)'),
+        'fecha_exp': fields.date('Fecha de Expedición', required=True, help='Se debe reflejar la fecha de expedición o otorgamiento  del documento. Ejem: 15/12/2010'),
+        'fecha_ven': fields.date('Fecha de Vencimiento',  required=False, help='Se debe colocar la fecha de vencimiento del documento Ejem: 15/12/2016 (Si el documento posee dicha fecha)'),
         'persona_id': fields.many2one('persona', 'Persona Encargada del Documento', required=True, help=' Se reflejara el representante legal que sale en el documento'),
         'tipo_id': fields.many2one('tipo_documento', 'Tipo de Documento', help='Seleccionar el Tipo de Documento el cual es el documento (Libro, Acta, ect.)'),
         'legal_id': fields.many2one('documentos_legales', 'Nombre de los Documentos Legales', help='Se reflejara el tipo de documento registrado (Acta constitutiva, acta de fiel cumplimiento, etc) '),
+        #'estatus_docum': fields.selection([('activo', 'Activo'), ('vencido', 'Vencido'), ('denegado', 'Denegado'), ('en_proceso', 'En Proceso')], 'Estatus del Documento', help="Se refleja el estatus actual del documento (Activo, Vencido, Denegado o en Proceso)", required=True, states={'activo': [('readonly', False)]}),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        #'estatus_docum': 'activo',
+        'active':True, 
+        
     }
     
 documentos()
@@ -176,7 +192,9 @@ class tipo_documento(osv.osv):
     
     _columns = {
         'nombre': fields.char('Tipo del Documento', size=100, required=True, help='Nombre que poseé el tipo de documento'),
+        
     }
+    
     
 tipo_documento()
 

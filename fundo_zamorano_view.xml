@@ -15,19 +15,30 @@
 					<!--<field name="tiponaturalidad_id" select="5" domain="[('naturalidad_id','=',[naturalidad_id])]"/>-->
 					<field name="tipo_id" select="2" widget="selection"/>
 					<!--<field name="estatus_id" select="6" widget="selection"/>-->
-					<field name="estatus_nombre" select="7"/>
+					<!--<field name="estatus_nombre" select="7"/>-->
+                    <field name="active" select="0"/>
 				</group>
                 <notebook colspan="5">
 					<page string="Dirección">
 						<separator string="Dirección" colspan="4" orientation="horizontal"/>
 						<field name="ppas_id" select="0"/>
+                        <field name="redi_id" select="1" on_change="limpiar_campos('redi')"/>
+						<field name="estado_id" select="2" domain="[('redi_id','=',[redi_id])]" on_change="limpiar_campos('estado')"/>
+						<field name="municipio_id" select="3" domain="[('estado_id','=',[estado_id])]" on_change="limpiar_campos('municipio')"/>
+						
+						<field name="parroquia_id" select="4" domain="[('municipio_id','=',[municipio_id])]" on_change="limpiar_campos('parroquia')"/>	
+						
+                        				
+
+<!--
 						<field name="redi_id" select="1"/>
 						<field name="estado_id" select="2" domain="[('redi_id','=',[redi_id])]" />
 						<field name="municipio_id" select="3" domain="[('estado_id','=',[estado_id])]"/>
 						
 						<field name="parroquia_id" select="4" domain="[('municipio_id','=',[municipio_id])]"/>	
-						
-						<field name="sector_id" select="5" domain="[('parroquia_id','=',[parroquia_id])]"/>		
+
+						<field name="sector" select="5"/>
+-->
 						<newline/>
 						<newline/>
 						<newline/>				
@@ -64,7 +75,7 @@
                 <field name="estado_id"/>
                 <!--<field name="municipio_id"/>-->
                 <!--<field name="parroquia_id"/>-->
-                <!--<field name="sector_id"/>-->
+                <field name="sector"/>
                 <field name="tipo_id"/>
                 <!--<field name="estatus_id"/>-->
                 <!--<field name="naturalidad_id"/>-->
@@ -96,7 +107,8 @@
         <field name="arch" type="xml">
             <form string="ppas">
                 <field name="nombre" select="1"/>
-                <field name="codigo" select="2"/>
+                <field name="active" select="0"/>
+            <!--<field name="codigo" select="2"/>-->
 
             </form>
         </field>
@@ -108,7 +120,7 @@
         <field name="arch" type="xml">
             <tree string="ppas">
                 <field name="nombre"/>
-                <field name="codigo"/>
+            <!--<field name="codigo"/>-->
 
             </tree>
         </field>
@@ -135,6 +147,7 @@
         <field name="arch" type="xml">
             <form string="redi">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -169,6 +182,7 @@
                 <field name="estado" select="1"/>
                 <field name="codigo" select="2"/>
                 <field name="redi_id" select="0"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -204,6 +218,7 @@
                 <field name="municipio" select="1"/>
                 <field name="codigo" select="2"/>
                 <field name="estado_id" select="0"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -239,6 +254,7 @@
                 <field name="parroquia" select="1"/>
                 <field name="codigo" select="2"/>
                 <field name="municipio_id" select="0"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -266,6 +282,7 @@
     
 
         
+<!--
     <record model="ir.ui.view" id="view_inces_sectores_form">
         <field name="name">inces_sectores.form</field>
         <field name="model">inces_sectores</field>
@@ -299,6 +316,7 @@
         <field name="view_mode">tree,form</field>
     </record>
     
+-->
 
         
     <record model="ir.ui.view" id="view_superficie_fundo_form">
@@ -344,7 +362,7 @@
         <field name="name">Superficie</field>
         <field name="res_model">superficie_fundo</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form,graph</field>
+        <field name="view_mode">tree,graph</field>
         <field name="view_id" ref="view_superficie_fundo_tree"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -362,6 +380,7 @@
         <field name="arch" type="xml">
             <form string="tipo_superficie">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -399,6 +418,7 @@
         <field name="arch" type="xml">
             <form string="tipo_fundo">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -466,6 +486,7 @@
         <field name="arch" type="xml">
             <form string="Tipo de Población del Fundo Zamorano">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -576,7 +597,9 @@
     <menuitem name="Estados" id="menu_inces_estados" parent="menu_fz_conf" action="action_inces_estados" sequence="1"/>
     <menuitem name="Municipios" id="menu_inces_municipios" parent="menu_fz_conf" action="action_inces_municipios" sequence="2"/>
     <menuitem name="Parroquia" id="menu_inces_parroquias" parent="menu_fz_conf" action="action_inces_parroquias" sequence="3"/>
+<!--
     <menuitem name="Sectores" id="menu_inces_sectores" parent="menu_fz_conf" action="action_inces_sectores" sequence="4"/>
+-->
     
     <!-- 3er Menú en la barra del panel Izquierdo -->
 	<menuitem name="Caracteristicas del Fundo Zamorano" id="menu_fz_caract" parent="menu_fundos" sequence="1"/>

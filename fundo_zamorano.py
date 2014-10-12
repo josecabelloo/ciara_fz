@@ -26,6 +26,36 @@ class fundo(osv.osv):
     """Nombres  de  Fundos  Zamoranos"""
     _name = 'fundo'
     _rec_name = 'codigo'
+    
+    def limpiar_campos(self,cr,uid,ids,nombre):
+        res={}
+        if nombre=='redi':
+            res={
+            'estado_id':'',
+            'municipio_id':'',
+            'parroquia_id':'',
+            #~ 'sector_id':'',
+                }
+        if nombre=='estado':
+            res={
+            'municipio_id':'',
+            'parroquia_id':'',
+            #~ 'sector_id':'',
+                }
+        if nombre=='municipio':
+            res={
+            'parroquia_id':'',
+            #~ 'sector_id':'',
+                }
+        if nombre=='parroquia':
+            res={
+            #~ 'sector_id':'',
+                }
+        return {
+         'value':res
+            }
+
+
     def _cod_fundo(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for o in self.browse(cr, uid, ids, context=context):
@@ -53,16 +83,19 @@ class fundo(osv.osv):
         'estado_id': fields.many2one('inces_estados', 'Estado', required=True, help='Se menciona el Nombre del Estado que se encuentra el Fundo Zamorano.'),
         'municipio_id': fields.many2one('inces_municipios', 'Municipio', help='Nombre del Municipio donde se encuentra el Fundo Zamorano'),
         'parroquia_id': fields.many2one('inces_parroquias', 'Parroquia', help='Parroquia la cual se encuentra el Fundo Zamorano. (Parroquia que sale establecida en instrumento agrario) '),
-        'sector_id': fields.many2one('inces_sectores', 'Sector', help='Nombre del Sector donde esta ubicado el Fundo Zamorano (Sector que sale establecido en la carta agraria del Fundo Zamorano)'),
+        'sector': fields.char('Sector', size=100, required=True, help='Nombre del Sector donde esta ubicado el Fundo Zamorano (Sector que sale establecido en la carta agraria del Fundo Zamorano)'),
         'tipo_id': fields.many2one('tipo_fundo' ,'Tipo de  Fundo Zamorano', required=True, help='Tipo de Fundo Zamorano: Conuquero, Parceleros, Colectivo, Rescatado'),
         'superficie_ids': fields.one2many('superficie_fundo', 'superficie_id', 'Superficie del Fundo Zamorano', help='Relacion de Superficie  de  Fundos'),
         'estatus_id': fields.many2one('a_n', 'Estatus del Fundo', help='Estatus que posee el Fundo (Activo- No Activo)'),
         'naturalidad_ids': fields.one2many('naturalidad_fundo', 'fundo_naturalidad_id', 'Tipo de Población del Fundo Zamorano', help='Se colocara el Tipo de Población del Fundo Zamorano (Afrodecendientes, Criollo, Indígena)'),
-        'estatus_nombre': fields.selection([('activo', 'Activo'), ('no_activo', 'No Activo')], 'Estatus', help="Se colocara el Estatus de Fundo Zamorano (Activo y No Activo).", required=True, states={'activo': [('readonly', False)]}),
+        #'estatus_nombre': fields.selection([('activo', 'Activo'), ('no_activo', 'No Activo')], 'Estatus', help="Se colocara el Estatus de Fundo Zamorano (Activo y No Activo).", required=True, states={'activo': [('readonly', False)]}),
+        'active': fields.boolean('Active'),
         
     }
+    _sql_constraints = [('codigo_unique','unique(codigo)',u'El nombre del Fundo debe ser unico')]
     _defaults = {
-        'estatus_nombre': 'activo',
+        #'estatus_nombre': 'activo',
+        'active':True, 
         
     }
 fundo()
@@ -75,7 +108,12 @@ class ppas(osv.osv):
     
     _columns = {
         'nombre': fields.char('Polo Patriotico Agrario Socialista', size=100, required=True, help='Nombre  del Polo Patriotico Agrario Socialista '),
-        'codigo': fields.char('Codigo del Polo', size=50, required=True, help='Codigo  del Polo Patriotico Agrario Socialista'),
+        'active': fields.boolean('Active'),
+        #'codigo': fields.char('Codigo del Polo', size=50, required=True, help='Codigo  del Polo Patriotico Agrario Socialista'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 ppas()
@@ -87,6 +125,11 @@ class redi(osv.osv):
     
     _columns = {
         'nombre': fields.char('REDI', size=50, required=True, help='Regiones Estratégicas de Desarrollo Integral (Redi)'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 redi()
@@ -102,6 +145,11 @@ class inces_estados(osv.osv):
         'estado': fields.char('Estado', size=50, required=True, help='Nombre  del  Estado'),
         'codigo': fields.char('Codigo', size=3, required=True, help='Codigo  de  Identificacion del Estado'),
         'redi_id': fields.many2one('redi', 'REDI' , help='REDI a la  cual esta  relacionado el Estado'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 inces_estados()
@@ -117,6 +165,11 @@ class inces_municipios(osv.osv):
         'municipio': fields.char('Municipio', size=50, required=True, help='Nombre del  Municipio'),
         'codigo': fields.char('Codigo', size=3, required=True, help='Codigo del Municipio'),
         'estado_id': fields.many2one('inces_estados', 'Estado', help='Estado que  esta  asociado  al  Municipio'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 inces_municipios()
@@ -132,24 +185,30 @@ class inces_parroquias(osv.osv):
         'parroquia': fields.char('Parroquia', size=50, required=True, help='Nombre  de la  Parroquia'),
         'codigo': fields.char('Codigo',size=3, required=True, help='Codigo de Identificacion de la Parroquia'),
         'municipio_id': fields.many2one('inces_municipios', 'Municipio', help='Municipio que  esta  relacionada a  la  Parroquia'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 inces_parroquias()
 
-class inces_sectores(osv.osv):
-    """Nombre  de  Sectores"""
-    _name = 'inces_sectores'
-    _rec_name = 'sector'
-    #_rec_name = 'codigo'
-    #_rec_name = 'parroquia_id'
-    
-    _columns = {
-        'sector': fields.char('Sector',size=50, required=True, help='Nombre del  Sector'),
-        'codigo': fields.char('Codigo', size=3, required= True, help='Codigo del Sector'),
-        'parroquia_id': fields.many2one('inces_parroquias', 'Parroquia', help='Parroquia  que  esta  asociado el  Sector'),
-    }
-    
-inces_sectores()
+#~ class inces_sectores(osv.osv):
+    #~ """Nombre  de  Sectores"""
+    #~ _name = 'inces_sectores'
+    #~ _rec_name = 'sector'
+    #~ #_rec_name = 'codigo'
+    #~ #_rec_name = 'parroquia_id'
+    #~ 
+    #~ _columns = {
+        #~ 'sector': fields.char('Sector',size=50, required=True, help='Nombre del  Sector'),
+        #~ 'codigo': fields.char('Codigo', size=3, required= True, help='Codigo del Sector'),
+        #~ 'parroquia_id': fields.many2one('inces_parroquias', 'Parroquia', help='Parroquia  que  esta  asociado el  Sector'),
+        
+    #~ }
+    #~ 
+#~ inces_sectores()
 
 class superficie_fundo(osv.osv):
     """Superficie  del  Fundo"""
@@ -162,7 +221,7 @@ class superficie_fundo(osv.osv):
     _columns = {
         'superficie_id': fields.many2one('fundo', 'Superficie', help='Superficies del Fundo Zamorano'),
         'espacio': fields.char('Hectareas', size=30, required=True, help='se reflejara  las Hectáreas  de forma numérica que tiene El Fundo Zamorano '),
-        'observacion': fields.char('Observación', size=250, required=False, help='Observación de  la  Superficie'),
+        'observacion': fields.text('Observación', required=False, help='Observación de  la  Superficie'),
         'tipo_id': fields.many2one('tipo_superficie', 'Tipo de Superficie', help='Se refleja el tipo de superficie (General, Aprovechable, Cultivable, Abrae)'),
     }
     
@@ -187,6 +246,11 @@ class tipo_superficie(osv.osv):
     
     _columns = {
         'nombre': fields.char('Tipo de  Superficie', size=100, required=True, help='Tipo de  Superficie (General, Aprovechable, Cultivable, Abrae)'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 tipo_superficie()
@@ -198,6 +262,11 @@ class tipo_fundo(osv.osv):
     
     _columns = {
         'nombre': fields.char('Tipo de Fundo Zamorano', size=100, required=True, help='Tipo del Fundo'),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 tipo_fundo()
@@ -222,6 +291,11 @@ class naturalidad_fundo_tipo(osv.osv):
     
     _columns = {
         'nombre': fields.char('Tipo de Población del Fundo Zamorano', size=50, required=True, help='Naturalidad que posee el Fundo'),
+        'active': fields.boolean('Active'),
+        
+    }
+    _defaults = {
+        'active':True, 
         
     }
     

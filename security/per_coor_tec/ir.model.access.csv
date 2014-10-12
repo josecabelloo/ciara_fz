@@ -1,11 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_coor_tec_fundo,fundo,ciara_fz.model_fundo,group_coor_tecnicos,1,1,1,1
+access_coor_tec_fundo,fundo,ciara_fz.model_fundo,group_coor_tecnicos,1,0,0,0
 access_coor_tec_ppas,ppas,ciara_fz.model_ppas,group_coor_tecnicos,1,1,1,1
 access_coor_tec_redi,redi,ciara_fz.model_redi,group_coor_tecnicos,1,1,1,1
 access_coor_tec_stados,inces_estados,ciara_fz.model_inces_estados,group_coor_tecnicos,1,1,1,1
 access_coor_tec_inces_municipios,inces_municipios,ciara_fz.model_inces_municipios,group_coor_tecnicos,1,1,1,1
 access_coor_tec_parroquias,inces_parroquias,ciara_fz.model_inces_parroquias,group_coor_tecnicos,1,1,1,1
-access_coor_tec_sectores,inces_sectores,ciara_fz.model_inces_sectores,group_coor_tecnicos,1,1,1,1
 access_coor_tec_superficie_fundo,superficie_fundo_,ciara_fz.model_superficie_fundo,group_coor_tecnicos,1,1,1,1
 access_coor_tec_tipo_superficie,tipo_superficie,ciara_fz.model_tipo_superficie,group_coor_tecnicos,1,1,1,1
 access_coor_tec_tipo_fundo,tipo_fundo,ciara_fz.model_tipo_fundo,group_coor_tecnicos,1,1,1,1
@@ -50,4 +49,3 @@ access_coor_tec_fundo_organizacion_grupo,fundo_organizacion_grupo,ciara_fz.model
 access_coor_tec_tipo_telefono,tipo_telefono,ciara_fz.model_tipo_telefono,group_coor_tecnicos,1,1,1,1
 access_coor_tec_movimiento,movimiento,ciara_fz.model_movimiento_grupo,group_coor_tecnicos,1,1,1,1
 access_coor_tec_intrumento_agrario,intrumento_agrario,ciara_fz.model_intrumento_agrario,group_coor_tecnicos,1,1,1,1
-access_coor_tec_usuario,usuario,ciara_fz.model_usuario,group_coor_tecnicos,1,1,1,1

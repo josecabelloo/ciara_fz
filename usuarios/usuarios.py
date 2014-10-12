@@ -23,8 +23,9 @@ from osv import fields,osv
 
 class usuario(osv.osv):
     """usuario"""
-    _name = 'usuario'
-    _rec_name = 'cedula'
+    _name = 'res.users'
+    _inherit = 'res.users'
+    _rec_name = 'name'
     #_rec_name = 'users_id'
     #_rec_name = 'redi_id'
     #_rec_name = 'estado_id'
@@ -34,7 +35,6 @@ class usuario(osv.osv):
     
     _columns = {
         'cedula': fields.char('Cedula de Identidad', size=15,required=True, help='cedula'),
-        'users_id': fields.many2one('res.users', 'Nombre del Usuario', help='Usuario'),
         'redi_id': fields.many2one('redi', 'REDI', help='REDI que  esta  asociada al Fundo'),
         'estado_id': fields.many2one('inces_estados', 'Estado', help='Estado'),
         'municipio_id': fields.many2one('inces_municipios', 'Municipio', help='Municipio'),
@@ -44,8 +44,9 @@ class usuario(osv.osv):
         'telefono': fields.char('Número de Telefono', size=20,required=False, help='apartamento'),
         'fundo_ids': fields.many2many('fundo', 'fundos_usuarios', 'fundo_id', 'usuario_id', 'Fundos Zamoranos', help='ayuda'),
         'casa/apto': fields.char('Casa/Apto', size=200,required=False, help='casa o partamento'),
-        #'tipo_id': fields.many2one('tipo_usuario', 'Tipo de Usuario', required=True,help='Tipo de Usuario'),
+        #~ 'tipo_id': fields.many2one('tipo_usuario', 'Tipo de Usuario', required=True,help='Tipo de Usuario'),
     }
+    
     
 usuario()
 

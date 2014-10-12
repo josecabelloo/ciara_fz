@@ -41,6 +41,11 @@ class tecnicas_dinamicas(osv.osv):
     _columns = {
         'nombre': fields.char('Nombre', size=40, required='True', help=' Se reflejara el método de Acompañamiento (visita, visita técnica, gira, charla, conservatorio, reunión, día de campo, hora radio, cine-foro, evento socio-cultural y circulo de lectura) y de capacitación (curso, demostración de método y demostración de resultados) '),
         'ejecucion_fisica_id': fields.many2one('ejecucion_fisica', 'Ejecucion fisica', required='True', help=' relacion que existe entre ejecucion fisica y tecnicas dinamicas '),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 tecnicas_dinamicas()
@@ -64,8 +69,13 @@ class componentes_proyecto(osv.osv):
     
     _columns = {
         'tipo_comp_proy_id': fields.many2one('tipo_componentes_proyecto', 'Nombre del Componete'	, required='True', help=' Se reflejara los componentes (Fortalecimiento de los Fundos Zamoranos como organización del Poder Popular, Desarrollo del Modelo Productivo de Gestión Socialista de los Fundos Zamoranos y Articulación estratégica)   que fueron empleados en esa actividad de capacitación o acompañamiento. '),
-        'descripcion': fields.text('Descripcion', size=40, required='True', help=' Describir como tributa la actividad a los componentes reflejados (Impacto) '),
+        'descripcion': fields.text('Descripcion', required='True', help=' Describir como tributa la actividad a los componentes reflejados (Impacto) '),
         'ejecucion_fisica_id': fields.many2one('ejecucion_fisica', 'Ejecucion fisica', required='True', help=' relacion que existe entre ejecucion fisica y componentes del proyecto '),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 componentes_proyecto()
@@ -88,8 +98,13 @@ class ejes_transversales(osv.osv):
     
     _columns = {
         'tipo_eje_transv_id': fields.many2one('tipo_ejes_transversales', 'Ejes Transversales', required='True', help=' Se reflejara los Ejes trasversales (Politico-ideologico, Comunicación Popular, Preservación de la Vida, Igualdad y Equidad e igualdad de Genero)  que fueron empleados en esa actividad de capacitación o acompañamiento. '),
-        'descripcion': fields.text('Descripcion', size=400, required='True', help=' Describir como tributa la actividad ejecutada a los ejes trasversales reflejados (Impacto) '),
+        'descripcion': fields.text('Descripcion', required='True', help=' Describir como tributa la actividad ejecutada a los ejes trasversales reflejados (Impacto) '),
         'ejecucion_fisica_id': fields.many2one('ejecucion_fisica', 'Ejecucion fisica', required='True', help=' relacion que existes entre ejecucion fisica y ejes transversales '),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 ejes_transversales()
@@ -110,7 +125,7 @@ class tecnicos(osv.osv):
     
     _columns = {
         'nombre': fields.char('Nombre', size=40, required='True', help=' Nombre del tecnico '),
-        'cedula_identidad': fields.integer('Cedula de identidad', size=10, required='True', help=' cedula de identidad del tecnico '),
+        'cedula_identidad': fields.char('Cedula de identidad', size=10, required='True', help=' cedula de identidad del tecnico '),
         'ejecucion_fisica_id': fields.many2one('ejecucion_fisica', 'Ejecucion fisica', required='True', help=' relacion que existe entre ejecucion fisica y tecnicos '),
     }
     
@@ -136,6 +151,11 @@ class tipo_persona(osv.osv):
     
     _columns = {
         'nombre': fields.char('Nombre', size=40, required='True', help=' nombres de los tipos de personas '),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 tipo_persona()
@@ -143,38 +163,20 @@ tipo_persona()
 class ejecucion_fisica(osv.osv):
     _name = 'ejecucion_fisica'
     _rec_name = 'nombre_objetivo'
+    
     def retorna_id_tecnicos(self, cr, uid, context=None):
         res=[]
-        personas=self.pool.get('usuario')
-        personas_id=personas.search(cr,uid,[])
-        personas_mapa=personas.browse(cr, uid, personas_id)
         res_user=self.pool.get('res.users')
-        for d in personas_mapa:
-            for grupo in d.users_id.groups_id:
+        usuario_id=res_user.search(cr,uid,[])
+        usuario_mapa=res_user.browse(cr, uid, usuario_id)
+        #~ personas_id=res_user.search(cr,uid,[])
+        for d in usuario_mapa:
+            for grupo in d.groups_id:
                 if grupo.name=='TECNICOS':
-                    if uid!=d.users_id.id:
+                    if uid!=d.id:
                         res.append(d.id)
         return res
         
-    def retorna_id_fundo(self, cr, uid, context=None):
-        rest=[]
-        personas=self.pool.get('usuario')
-        personas_id=personas.search(cr,uid,[('users_id','=',uid)])
-        personas_mapa=personas.browse(cr, uid, personas_id)
-        for d in personas_mapa:
-                for f in d.fundo_ids:
-                    rest.append((f.id,f.codigo))
-        return rest
-    def retorna_id_miembro_referencial(self, cr, uid, ids, context=None):
-        rest = []
-        personas=self.pool.get('usuario')
-        sesionado=personas.search(cr,uid,[('users_id','=',uid)])
-        men=self.pool.get('miembro_referencial')
-        for r in personas.browse(cr, uid, sesionado):
-            for f in r.fundo_ids: 
-                for m in men.search(cr,uid,[('fundo_id','=',f.id)]):
-                    rest.append(m)
-        return rest
                 
     def _cod_pers_atendidas(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -192,10 +194,22 @@ class ejecucion_fisica(osv.osv):
         qwer=0
         return res
     
+    def usuario_creador(self, cr, uid, ids, field_name, arg, context=None):
+        res={}
+        ef_brw=self.browse(cr, uid, ids)
+        for o in ef_brw:
+            cr.execute('SELECT u.create_uid FROM ejecucion_fisica AS u WHERE u.id = %s'% o.id)
+            creador_id=cr.fetchall()
+            creadores=self.pool.get('res.users').browse(cr, uid, [creador_id[0][0]])
+            res[o.id]=[p.name for p in creadores]
+        return res
+         
+    
+    
 
 
     _columns = {
-        'objetivo': fields.text('Objetivo', size=60, required='True', help=' Se reflejara  cual es el objetivo o fin principal de la actividad de acompañamiento o capacitación '),
+        'objetivo': fields.text('Objetivo', required='True', help=' Se reflejara  cual es el objetivo o fin principal de la actividad de acompañamiento o capacitación '),
         'nombre_objetivo': fields.char('Nombre de la Temática', size=150, required='True', help='Nombre de la temática  de la actividad de Capacitación o Acompañamiento.'),
         'numero_familia': fields.char('Familias Atendidas', size=4, help=' numero de Familias Atendias que no pertenecen al Fundo Zamorano'),
         'numero_personas': fields.function(_cod_pers_atendidas, string='Personas Atendidas', type="char",size=100, store=True, help=' numero de Personas Atendias que no pertenecen al Fundo Zamorano'),
@@ -206,26 +220,48 @@ class ejecucion_fisica(osv.osv):
         'fecha_planificacion': fields.date('Fecha de planificacion', size=10, required='True', help=' Se refleja la fecha de planificación de la actividad de acompañamiento o capacitación a ejecutar. '),
         'fecha_ejecucion': fields.date('Fecha de ejecucion', size=10, required='True', help='se refleja la fecha la cual se ejecutara la actividad de acompañamiento o capacitación '),
         'resultado': fields.text('Resultado', required='True', help=' es la descripción del impacto positivo o negativo obtenido de la actividad acompañamiento o capacitación. Cabe a destacar que se debe realizar con un enfoque cualitativo. '),
-        'fundo_id': fields.selection(retorna_id_fundo, 'Fundo Zamorano', required='True',help=' Se seleccionara el nombre del Fundo Zamorano al cual se le cargara la actividad de capacitación o de acompañamiento '),
-        'organizacion_id': fields.many2one('organizacion', 'Organizacion', required='True', help=' Organización  donde se ejecuto la actividad de Capacitación o Acompañamiento.'),
+        'fundo_id': fields.many2many('fundo','ejecucion_fundo_redi','ejecucion_id','fundo_id','Fundos Zamoranos',help=' Se seleccionara el nombre del Fundo Zamorano al cual se le cargara la actividad de capacitación o de acompañamiento '),
+        #~ 'fundo_id': fields.selection(retorna_id_fundo, 'Fundo Zamorano', required='True',help=' Se seleccionara el nombre del Fundo Zamorano al cual se le cargara la actividad de capacitación o de acompañamiento '),
+        'organizacion_id': fields.many2many('organizacion','ejecucion_organizacion_redi','ejecucion_id','organizacion_id','Organizaciones del Fundo Zamorano', help=' Organización  donde se ejecuto la actividad de Capacitación o Acompañamiento.'),
         'acciones_especificas_id': fields.many2one('acciones_especificas', 'Acciones especifica', required='True', help=' Se refleja la acción especifica ejecutada (Capacitación o Acompañamiento) '),
         'personas_atendida_ids': fields.one2many('personas_atendidas', 'ejecucion_fisica_id', 'Personas atendidas', required='True', help=' relacion que existe entre personas atendidas y ejecucion fisica '),
         'tecnicas_dinamicas_ids': fields.one2many('tecnicas_dinamicas', 'ejecucion_fisica_id', 'Tecnicas dinamicas', help=' relacion que existe entre tecnicas dinamicas y la ejecucion fisica '),
         'materiales_apoyo_ids': fields.one2many('materiales_apoyo', 'ejecucion_fisica_id', 'Materiales de apoyo', help=' relacion que existe entre materiales de apoyo y la ejecucion fisica '),
         'componentes_proyecto_ids': fields.one2many('componentes_proyecto', 'ejecucion_fisica_id', 'Componentes del proyecto' , help=' Relacion entre componentes proyecto y la ejecucion fisica '),
         'ejes_transversales_ids': fields.one2many('ejes_transversales', 'ejecucion_fisica_id', 'Ejes transversales', help=' Relacion de los Ejes transversales con la ejecucion fisica '),
-        'familias_atendidas_ids': fields.many2many('miembro_referencial', 'ejecucion', 'ejecucion_fisica_id', 'miembro_referencial_id', 'Personas Atendidas', help='ayuda'),
         #~ 'pere': fields.function(retorna_id_fundos, method=True, type='many2many', relation='grupo_familiar', string='BOM Products'),
         'personas_atendidas_ids': fields.many2many('grupo_familiar', 'personas', 'ejecucion_fisica_id', 'grupo_familiar_id', 'Familias Atendidas' ),
-        'tecnicos_ayuda_domain_ids': fields.many2many('usuario', 'tecnicos_ayuda_domain_usuarios', 'ejecucion_fisica_id', 'usuario_id', 'Tecnicos Relacionados que nos ayudara a cargar datos en tecnicos_ids ' ),
-        'tecnicos_ids': fields.many2many('usuario', 'tecnicos_usuarios', 'ejecucion_fisica_id', 'usuario_id', 'Tecnicos Relacionados' ),
+        'tecnicos_ayuda_domain_ids': fields.many2many('res.users', 'tecnicos_ayuda_domain_usuarios', 'ejecucion_fisica_id', 'usuario_id', 'Tecnicos Relacionados que nos ayudara a cargar datos en tecnicos_ids ' ),
+        'tecnicos_ids': fields.many2many('res.users', 'tecnicos_usuarios', 'ejecucion_fisica_id', 'usuario_id', 'Tecnicos Relacionados' ),
         'fecha_actual': fields.datetime('Fecha del Sistema', help='cuidado '),
+        'active': fields.boolean('Active'),
+        'creador':fields.function(usuario_creador, string='Responsable', type="char"),
     }
     _defaults={
-             'familias_atendidas_ids':retorna_id_miembro_referencial,
-             'tecnicos_ayuda_domain_ids':retorna_id_tecnicos,
+           'tecnicos_ayuda_domain_ids':retorna_id_tecnicos,
+           'active':True, 
             }
-    
+    def ejes_transve(self, cr, uid, ids, context=None):
+        
+        arr = []
+        for o in self.browse(cr, uid, ids, context=context):
+            for w in o.ejes_transversales_ids:
+                arr.append(w.tipo_eje_transv_id.tipo_eje_transv)
+                for i in arr:
+                    if arr.count(w.tipo_eje_transv_id.tipo_eje_transv)!=1:
+                        raise osv.except_osv(('Error !'), ('haz seleccionado dos veces %s' % (w.tipo_eje_transv_id.tipo_eje_transv)))
+                
+        return True
+    def compo(self, cr, uid, ids, context=None):
+        arr = []
+        for o in self.browse(cr, uid, ids, context=context):
+            for w in o.componentes_proyecto_ids:
+                arr.append(w.tipo_comp_proy_id.tipo_comp_proy)
+                for i in arr:
+                    if arr.count(w.tipo_comp_proy_id.tipo_comp_proy)!=1:
+                        raise osv.except_osv(('Error !'), ('haz seleccionado dos veces %s' % (w.tipo_comp_proy_id.tipo_comp_proy)))
+                
+        return True
     def valida_fecha_eje_plan(self, cr, uid, ids, context=None):
         hoy=str(date.today())
         for r in self.browse(cr,uid,ids):
@@ -248,9 +284,20 @@ class ejecucion_fisica(osv.osv):
                     no puede ser mayor a la fecha actual %s'
                     %(r.fecha_ejecucion,hoy)))
         return True
+    def numero_caracteres(self, cr, uid, ids, context=None):
+        for r in self.browse(cr,uid,ids):
+            r.resultado
+            print str(len(r.resultado))
+            if len(r.resultado)< 130:
+                
+                return False
+        return True
     _constraints = [
-  (valida_fecha_eje_plan,' ',  ['validacion de fechas']),
-   ]
+                (valida_fecha_eje_plan,' ',  ['validacion de fechas']), 
+                (ejes_transve,' ',  ['validacion de los ejes transversales']),
+                (compo,' ',  ['validacion de los componentes  del proyecto']),
+                (numero_caracteres,' ',  ['validacion de la cantidad de  caracteres']),
+                ]
     
 ejecucion_fisica()
 class familias_atend(osv.osv):
@@ -263,3 +310,6 @@ class familias_atend(osv.osv):
     }
     
 familias_atend()
+
+
+

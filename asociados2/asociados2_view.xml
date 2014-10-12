@@ -13,6 +13,7 @@
                 <field name="fundo_id" select="0"/>
                 <field name="Lugar_residencia" select="0"/>
                 <field name="produce" select="0"/>
+                <field name="active" select="0"/>
                 <notebook colspan="5">
                     <page string="Direccion">
                         <separator string="Direccion" colspan="4"/>
@@ -46,10 +47,12 @@
                 <field name="estado_id"/>
                 <field name="municipio_id"/>
                 <field name="parroquia_id"/>
+<!--
                 <field name="sector"/>
                 <field name="av_calle"/>
                 <field name="casa_edif"/>
                 <field name="numero"/>
+-->
 
             </tree>
         </field>
@@ -87,6 +90,7 @@
                 <field name="correo"/>
                 <field name="pasaporte"/>
                 <field name="fecha_vence"/>
+                <field name="active" select="0"/>
                 
                 <notebook colspan="8">
                     
@@ -182,6 +186,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -218,6 +223,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -255,6 +261,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -292,6 +299,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="2"/>
 
             </form>
         </field>
@@ -308,7 +316,7 @@
         </field>
     </record>
     <record model="ir.actions.act_window" id="action_partido_politico">
-        <field name="name">Parido Politico</field>
+        <field name="name">Partido Politico</field>
         <field name="res_model">partido_politico</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -329,6 +337,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -365,6 +374,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>
@@ -384,7 +394,7 @@
         <field name="name">Tipo Telefono</field>
         <field name="res_model">tipo_telefono</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_tipo_telefono_tree"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -432,6 +442,7 @@
         <field name="arch" type="xml">
             <form string="">
                 <field name="nombre" select="1"/>
+                <field name="active" select="0"/>
 
             </form>
         </field>

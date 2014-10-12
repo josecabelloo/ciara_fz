@@ -40,20 +40,21 @@ class miembro_referencial(osv.osv):
         'grupo_familiar_ids': fields.one2many('grupo_familiar', 'miembro_referencial_id', 'Persona'),
         'redi_id': fields.many2one('redi', 'REDI', required=True),
         'estado_id': fields.many2one('inces_estados', 'Estado', required=True),
-        'municipio_id': fields.many2one('inces_municipios', 'Municipios', required=True),
-        'parroquia_id': fields.many2one('inces_parroquias', 'Parroquias', required=True),
+        'municipio_id': fields.many2one('inces_municipios', 'Municipio', required=True),
+        'parroquia_id': fields.many2one('inces_parroquias', 'Parroquia', required=True),
         'sector': fields.char('Sector', size=100, required=True),
         'av_calle': fields.char('Avenida/Calle', size=100),
         'casa_edif': fields.char('Casa/Edificio', size=100, required=True),
-        'numero': fields.char('Nro Casa/Edificio', size=10),
+        'numero': fields.char('Nro apartamento', size=10),
         'fundo_id': fields.many2one('fundo', 'Fundo', required=True),
         'Lugar_residencia':fields.selection([('fundo', 'Fundo'), ('zona_periferica', 'Zona Periferica')], 'Lugar de residencia', help="Se colocara el lugar de residencia del miembro referencial (Fundo o Zonas Perifericas).", required=True, states={'fundo': [('readonly', False)]}),
         'produce':fields.selection([('productiva', 'Productiva'), ('no_productiva', 'No Productiva')], 'Produce', help="Se colocara el Estatus del Fundo Zamorano en la produccion (Productiva y No Productiva).", required=True, states={'productiva': [('readonly', False)]}),
+        'active': fields.boolean('Active'),
     }
     _defaults = {
        'Lugar_residencia': 'fundo',
        'produce': 'productiva',
-       
+       'active':True, 
    }
        
     
@@ -89,7 +90,7 @@ class grupo_familiar(osv.osv):
         
         
     _columns = {
-        'nombre': fields.char('Nombre de Familia', size=100, required=True),
+        'nombre': fields.char('Nombres', size=100, required=True),
         'miembro_referencial_id': fields.many2one('miembro_referencial', 'Familia'),
         'apellidos': fields.char('Apellidos', size=100, required=True),
         'cedula': fields.char('Cedula', size=10),
@@ -109,7 +110,9 @@ class grupo_familiar(osv.osv):
         'enf_dis_grupo_ids': fields.one2many('enf_dis_grupo', 'grupo_familiar_id', 'Persona'),
         'fundo_organizacion_grupo_ids': fields.one2many('fundo_organizacion_grupo', 'grupo_familiar_id', 'Persona'),
         'telefono_grupo_ids': fields.one2many('telefono_grupo', 'grupo_familiar_id', 'Persona'),
+        'active': fields.boolean('Active'),
     }
+    _sql_constraints = [('cedula_unique','unique(cedula)','La Cedula deben ser unica')] 
     
     
     def calculo_edad(self, cr, uid, ids, fecha_nac, context=None):
@@ -133,6 +136,10 @@ class grupo_familiar(osv.osv):
             raise osv.except_osv(('Error !'), ('Fecha de nacimiendo incorrecta: %s' % fecha_nac ))
         res['edad'] = mens
         return {'value': res}
+    _defaults = {
+        'active':True, 
+        
+    }
 grupo_familiar()
 
 class fundo_organizacion_grupo(osv.osv):
@@ -155,6 +162,11 @@ class genero(osv.osv):
     
     _columns = {
         'nombre': fields.char('Nombre del Genero', size=50, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 genero()
@@ -165,6 +177,11 @@ class estado_civil(osv.osv):
     
     _columns = {
         'nombre': fields.char('Estado Civil', size=50, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 estado_civil()
@@ -174,7 +191,12 @@ class nivel_educativo(osv.osv):
     _rec_name = 'nombre'
     
     _columns = {
-        'nombre': fields.char('Nivel Educativo', size=50, required=False),
+        'nombre': fields.char('Nivel Educativo', size=50, required=True),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 nivel_educativo()
@@ -185,6 +207,11 @@ class partido_politico(osv.osv):
     
     _columns = {
         'nombre': fields.char('Partido Politico', size=100, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 partido_politico()
@@ -195,6 +222,11 @@ class intrumento_agrario(osv.osv):
     
     _columns = {
         'nombre': fields.char('Instrumento Agrario', size=100, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 intrumento_agrario()
@@ -206,6 +238,11 @@ class tipo_telefono(osv.osv):
     
     _columns = {
         'nombre': fields.char('Tipo de Telefono', size=50, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 tipo_telefono()
@@ -229,6 +266,11 @@ class mision(osv.osv):
     
     _columns = {
         'nombre': fields.char('Nombre Mision', size=200, required=False),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active':True, 
+        
     }
     
 mision()
