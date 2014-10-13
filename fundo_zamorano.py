@@ -47,10 +47,6 @@ class fundo(osv.osv):
             'parroquia_id':'',
             #~ 'sector_id':'',
                 }
-        if nombre=='parroquia':
-            res={
-            #~ 'sector_id':'',
-                }
         return {
          'value':res
             }
@@ -83,7 +79,7 @@ class fundo(osv.osv):
         'estado_id': fields.many2one('inces_estados', 'Estado', required=True, help='Se menciona el Nombre del Estado que se encuentra el Fundo Zamorano.'),
         'municipio_id': fields.many2one('inces_municipios', 'Municipio', help='Nombre del Municipio donde se encuentra el Fundo Zamorano'),
         'parroquia_id': fields.many2one('inces_parroquias', 'Parroquia', help='Parroquia la cual se encuentra el Fundo Zamorano. (Parroquia que sale establecida en instrumento agrario) '),
-        'sector': fields.char('Sector', size=100, required=True, help='Nombre del Sector donde esta ubicado el Fundo Zamorano (Sector que sale establecido en la carta agraria del Fundo Zamorano)'),
+        'sector': fields.char('Sector', size=100, required=False, help='Nombre del Sector donde esta ubicado el Fundo Zamorano (Sector que sale establecido en la carta agraria del Fundo Zamorano)'),
         'tipo_id': fields.many2one('tipo_fundo' ,'Tipo de  Fundo Zamorano', required=True, help='Tipo de Fundo Zamorano: Conuquero, Parceleros, Colectivo, Rescatado'),
         'superficie_ids': fields.one2many('superficie_fundo', 'superficie_id', 'Superficie del Fundo Zamorano', help='Relacion de Superficie  de  Fundos'),
         'estatus_id': fields.many2one('a_n', 'Estatus del Fundo', help='Estatus que posee el Fundo (Activo- No Activo)'),

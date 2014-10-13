@@ -27,7 +27,7 @@
 						<field name="municipio_id" select="3" domain="[('estado_id','=',[estado_id])]" on_change="limpiar_campos('municipio')"/>
 						
 						<field name="parroquia_id" select="4" domain="[('municipio_id','=',[municipio_id])]" on_change="limpiar_campos('parroquia')"/>	
-						
+						<field name="sector" select="5"/>
                         				
 
 <!--
